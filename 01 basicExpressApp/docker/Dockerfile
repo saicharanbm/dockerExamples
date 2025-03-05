@@ -21,3 +21,6 @@ EXPOSE 3000
 
 # start the app
 CMD ["node", "dist/index.js"]
+
+# since docker file is inside docker folder, we need to run docker build command from root directory
+#  using docker build -t basic-express-app -f docker/Dockerfile .
