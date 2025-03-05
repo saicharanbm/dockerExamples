@@ -36,6 +36,9 @@ importers:
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
+      esbuild:
+        specifier: ^0.25.0
+        version: 0.25.0
 
   apps/web:
     dependencies:
@@ -89,6 +92,9 @@ importers:
       '@types/ws':
         specifier: ^8.18.0
         version: 8.18.0
+      esbuild:
+        specifier: ^0.25.0
+        version: 0.25.0
 
   packages/db:
     dependencies:
