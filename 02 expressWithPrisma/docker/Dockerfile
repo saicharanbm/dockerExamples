@@ -27,3 +27,16 @@ EXPOSE 3000
 
 # start the app
 CMD [ "node", "dist/index.js" ]
+
+
+# since docker file is inside docker folder, we need to run docker build command from root directory
+#  using docker build -t basic-express-app -f docker/Dockerfile .
+
+# To connect to the PostgreSQL database running on your host machine from within a Docker container, you need to use a special hostname:
+
+# On Mac: Use host.docker.internal
+# On Windows: Use host.docker.internal
+# On Linux: Use the host's IP address (typically 172.17.0.1 or your machine's local IP)
+
+
+#  docker run -e DATABASE_URL="postgres://postgres:postgres@host.docker.internal:5432/default" -p 3000:3000 prisma-express-app
