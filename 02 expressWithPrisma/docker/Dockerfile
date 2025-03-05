@@ -25,12 +25,12 @@ RUN npm run build
 # expose the port
 EXPOSE 3000
 
-# start the app
-CMD [ "node", "dist/index.js" ]
+# Run migrations and start the app
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
 
 
 # since docker file is inside docker folder, we need to run docker build command from root directory
-#  using docker build -t basic-express-app -f docker/Dockerfile .
+#  using docker build -t prisma-express-app -f docker/Dockerfile .
 
 # To connect to the PostgreSQL database running on your host machine from within a Docker container, you need to use a special hostname:
 
