@@ -1,0 +1,50 @@
+services:
+  postgres:
+    container_name: monorepo-postgres-container
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=prisma
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=trial
+    volumes:
+      - monorepo-postgres-data:/var/lib/postgresql/data
+
+  api_backend:
+    container_name: monorepo-api-server
+    build:
+      context: ../ # Go up one directory to project root becsuse Dockerfile is in root
+      dockerfile: docker/Dockerfile.backend # Specify path to api backend Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://prisma:mysecretpassword@postgres:5432/trial
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+  websocket_server:
+    container_name: monorepo-websocket-server
+    build:
+      context: ../ # Go up one directory to project root becsuse Dockerfile is in root
+      dockerfile: docker/Dockerfile.websocket # Specify path to websocket server Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://prisma:mysecretpassword@postgres:5432/trial
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+  nextjs_frontend:
+    container_name: monorepo-nextjs-frontend
+    build:
+      context: ../ # Go up one directory to project root becsuse Dockerfile is in root
+      dockerfile: docker/Dockerfile.frontend # Specify path to frontend Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://prisma:mysecretpassword@postgres:5432/trial
+    ports:
+      - 3001:3000
+    depends_on:
+      - postgres
+volumes:
+  monorepo-postgres-data:
