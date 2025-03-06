@@ -5,7 +5,17 @@ const wss = new WebSocketServer({ port: 8080 });
 
 wss.on("connection", (ws) => {
   ws.on("message", async (message) => {
-    const { username, password } = JSON.parse(message.toString());
+    let parsedMessage;
+
+    // Handle invalid JSON input
+    try {
+      parsedMessage = JSON.parse(message.toString());
+    } catch (error) {
+      ws.send(JSON.stringify({ error: "Invalid JSON format" }));
+      return;
+    }
+
+    const { username, password } = parsedMessage;
 
     if (!username || !password) {
       ws.send(JSON.stringify({ error: "Username and password are required" }));
