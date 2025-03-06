@@ -28,10 +28,13 @@ COPY ./apps/web ./apps/web
 # Generate Prisma client
 RUN pnpm run db:generate
 
-# Build the web
+
+# this works only because we are not doing db calls in the static pages of the frontend
+# if we were doing db calls in the static pages, we would need to add env variable of the db url
+# Build the frontend
 RUN pnpm run web:build
 
-# Expose the web port
+# Expose the frontend port
 EXPOSE 3000
 
 # Define the entrypoint script
@@ -48,4 +51,4 @@ CMD ["pnpm run db:migrate && pnpm run web:start"]
 # On Linux: Use the host's IP address (typically 172.17.0.1 or your machine's local IP)
 
 
-#  docker run -e DATABASE_URL="postgres://postgres:postgres@host.docker.internal:5432/default" -p 3000:3000 monorepo-frontend
+#  docker run -e DATABASE_URL="postgres://postgres:postgres@host.docker.internal:5432/default" -p 3001:3000 monorepo-frontend
